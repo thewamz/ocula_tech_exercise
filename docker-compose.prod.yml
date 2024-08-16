@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14.2
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ocula
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  ocula:
+    image: ocula:${APP_VERSION}
+    build:
+      context: "."
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env.docker
+
+  nginx:
+    image: nginx:1.19.2
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./static:/usr/src/app/static:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - ocula
+
+volumes:
+  pgdata:
+  static:

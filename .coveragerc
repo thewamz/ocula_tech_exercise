@@ -1,0 +1,19 @@
+[run]
+branch = True
+source = ocula
+omit =
+     .tox/*
+     scripts/*
+     */migrations/*
+     */settings/*
+     */tests/*
+     */admin.py
+     */apps.py
+     ocula/urls.py
+     ocula/wsgi.py
+     ocula/asgi.py
+     manage.py
+     setup.py
+
+[report]
+precision = 2

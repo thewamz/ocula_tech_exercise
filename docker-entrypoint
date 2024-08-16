@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# this is the entrypoint for the terminus container
+
+set -e
+
+until pg_isready -d ${DATABASE_URL} >/dev/null; do
+    echo "postgres is unavailable, sleeping..." >&2
+    sleep 1
+done
+
+echo "postgres is up and running..." >&2
+
+if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ];
+then
+    echo "Running migrations..."
+    ./manage.py migrate --noinput
+fi
+
+if [ "x$DJANGO_MANAGEPY_COLLECTSTATIC" = 'xon' ];
+then
+    echo "Collecting static files..."
+    ./manage.py collectstatic --noinput --clear
+fi
+
+if [ "x$DJANGO_MANAGEPY_PRELOAD_DATA" = 'xon' ];
+then
+    echo "Preload outcodes, towns, cities and counties..."
+    ./manage.py runscript load_outcodes
+    ./manage.py runscript load_towns_cities_and_counties
+
+    echo "Preload property types and features..."
+    ./manage.py runscript load_property_types
+    ./manage.py runscript load_property_features
+fi
+
+exec "$@"

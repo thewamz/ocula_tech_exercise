@@ -1,0 +1,12 @@
+dj-database-url
+Django
+djangorestframework
+django-countries
+django-extensions
+gunicorn
+psycopg2
+# dev
+werkzeug
+# testing
+coverage
+factory-boy
