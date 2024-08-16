@@ -5,6 +5,8 @@ django-countries
 django-extensions
 gunicorn
 psycopg2
+requests
+whitenoise
 # dev
 werkzeug
 # testing
