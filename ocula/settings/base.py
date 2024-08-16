@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_countries",
     "django_extensions",
+    "rest_framework",
     "ocula.weatherapp",
 ]
 
@@ -113,6 +114,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.1/howto/static-files/
+STATIC_ROOT = "static/"
+STATIC_URL = "/static/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -141,3 +146,5 @@ except (KeyError, ValueError):
     BUILD_TIME = "Not available"
 
 TIMESTAMP_SIGNER_SALT = os.environ["TIMESTAMP_SIGNER_SALT"]
+
+WEATHER_API_KEY = os.environ["WEATHER_API_KEY"]
