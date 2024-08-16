@@ -25,13 +25,8 @@ fi
 
 if [ "x$DJANGO_MANAGEPY_PRELOAD_DATA" = 'xon' ];
 then
-    echo "Preload outcodes, towns, cities and counties..."
-    ./manage.py runscript load_outcodes
+    echo "Preload towns, cities and counties..."
     ./manage.py runscript load_towns_cities_and_counties
-
-    echo "Preload property types and features..."
-    ./manage.py runscript load_property_types
-    ./manage.py runscript load_property_features
 fi
 
 exec "$@"

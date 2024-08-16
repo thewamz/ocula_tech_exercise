@@ -21,6 +21,7 @@ static/django_tables2/
 static/images/
 static/css/
 static/js/
+static/rest_framework
 
 # Ignore htmlcov from coverage
 .coverage
