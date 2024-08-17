@@ -1,14 +1,12 @@
-from rest_framework import serializers, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
-from ocula.weatherapp.models import Temperature, City
-
 from datetime import datetime
 
-import requests
-
 from django.conf import settings
+
+import requests
+from rest_framework import serializers, viewsets
+from rest_framework.response import Response
+
+from ocula.weatherapp.models import City, Temperature
 
 
 class TemperatureSerializer(serializers.Serializer):
@@ -21,14 +19,22 @@ class TemperatureSerializer(serializers.Serializer):
 class TemperatureViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
-            city = City.objects.get(name__iexact=request.GET['city'])
+            city = City.objects.get(name__iexact=request.GET["city"])
         except City.DoesNotExist:
-            return Response({'message': 'Invalid city! Please enter a valid UK city'}, status=404)
+            return Response(
+                {"message": "Invalid city! Please enter a valid UK city"}, status=404
+            )
 
         try:
-            temperature = Temperature.objects.get(city=city, recorded_at=datetime.strptime(request.GET['date'], '%Y-%m-%d'))
+            temperature = Temperature.objects.get(
+                city=city,
+                recorded_at=datetime.strptime(request.GET["date"], "%Y-%m-%d"),
+            )
         except Temperature.DoesNotExist:
-            return Response({'message': 'No record found matching the city and date provided!'}, status=404)
+            return Response(
+                {"message": "No record found matching the city and date provided!"},
+                status=404,
+            )
 
         serializer = TemperatureSerializer(temperature)
 
@@ -36,11 +42,13 @@ class TemperatureViewSet(viewsets.ViewSet):
 
     def create(self, request):
         try:
-            city = City.objects.get(name__iexact=request.POST['city'])
+            city = City.objects.get(name__iexact=request.POST["city"])
         except City.DoesNotExist:
-            return Response({'message': 'Invalid city! Please enter a valid UK city'}, status=404)
+            return Response(
+                {"message": "Invalid city! Please enter a valid UK city"}, status=404
+            )
 
-        recorded_at_date = datetime.strptime(request.POST['date'], '%Y-%m-%d')
+        recorded_at_date = datetime.strptime(request.POST["date"], "%Y-%m-%d")
 
         # retrieve city coordinates from Weather API
         if not any([city.longitude, city.latitude]):

@@ -1,10 +1,6 @@
 from django.contrib import admin
 
-from ocula.weatherapp.models import (
-    City,
-    County,
-    Temperature,
-)
+from ocula.weatherapp.models import City, County, Temperature
 
 
 @admin.register(County)

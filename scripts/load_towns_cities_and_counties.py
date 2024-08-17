@@ -5,7 +5,7 @@ import csv
 
 from django.db import transaction
 
-from ocula.weatherapp.models import County, City
+from ocula.weatherapp.models import City, County
 
 
 def run():
